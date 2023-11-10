@@ -1,124 +1,106 @@
 # Project 04: Breathing Led
 
-1.  **Introduction**
+### **1.Introduction**
 
-In this project, we will learn the PWM control of ARDUINO. PWM is Pulse
-Width Modulation, which is a technique that encodes analog signal levels
-into digital signal levels. We will use PWM to control the brightness of
-LED.
+In this project, we will learn the PWM control of ARDUINO. PWM is Pulse Width Modulation, which is a technique that encodes analog signal levels into digital signal levels. We will use PWM to control the brightness of LED.
 
-**2.项目元件：**
+### **2.Components**
 
-|                                                         |                                      |                        |                        |                        |
-| ------------------------------------------------------- | ------------------------------------ | ---------------------- | ---------------------- | ---------------------- |
-| ![](/media/bbed91c0b45fcafc7e7163bfeabf68f9.png)      |                        |                        |                        |
-| Raspberry Pi Pico\*1                                    | Raspberry Pi Pico Expansion Board\*1 |                        |                        |                        |
-| ![](/media/7dcbd02995be3c142b2f97df7f7c03ce.png) |
-| Red LED\*1                                              | 220Ω Resistor\*1                     | Breadboard\*1          | Jumper Wire\*2         | USB Cable\*1           |
+| ![image-20230508172750055](media/image-20230508172750055.png) | <img src="media/bbed91c0b45fcafc7e7163bfeabf68f9-16835380638151.png" style="zoom:50%;" /> | ![image-20230508172721129](media/image-20230508172721129.png) | ![image-20230508172725798](media/image-20230508172725798.png) |
+| ------------------------------------------------------- | ------------------------------------ | ---------------------- | ---------------------- |
+| Raspberry Pi Pico\*1                                    | Raspberry Pi Pico Expansion Board\*1 | USB Cable\*1 | Jumper Wire\*2 |
+| ![image-20230508172758711](media/image-20230508172758711.png) |![image-20230508172830359](media/image-20230508172830359.png)|![image-20230508172802679](media/image-20230508172802679.png)||
+| Red LED\*1                                              | 220Ω Resistor\*1                     | Breadboard\*1          |          |
 
-2.  **Component Knowledge**
+### **3.Component Knowledge**
 
-![](/media/6549bdbfd4e7b6b2b341012105d655e8.png)
+![image-20230509085002341](media/image-20230509085002341.png)
 
-**Working principle****:** It can control the brightness of LED, the
-speed of DC motors and Servo motors, and outputs square wave signal. If
-we want to dim the LED, we can change the ON(open) and OFF(close) time
-of the signal. When we change the time of ON and OFF fast enough, then
-the brightness of the LED will change. Here are some terms related to
-PWM as follows.
+**Working principle**
 
-ON (open)：When the signal is high.
+It can control the brightness of LED, the speed of DC motors and Servo motors, and outputs square wave signal. If we want to dim the LED,  we can change the ON(open) and OFF(close) time of the signal. When we change the time of ON and OFF fast enough, then the brightness of the LED will change. Here are some terms related to PWM as follows.
 
-OFF (close)：When the signal is low.
+**ON (open)**：When the signal is high.
+
+**OFF (close)**：When the signal is low.
 
 Period: It is the sum of the time of On and Off.
 
-Duty cycle: The percentage of time when the signal is at a high level
-for a certain period of time. At 50% duty cycle and 1Hz frequency, the
-LED will be on for half a second and off for the other half of a second.
+Duty cycle: The percentage of time when the signal is at a high level for a certain period of time. At 50% duty cycle and 1Hz frequency, the LED will be on for half a second and off for the other half of a second. 
 
-![](/media/a439e1bd8a4578b43b7188c821d58594.jpeg)
+![image-20230509085011731](media/image-20230509085011731.png)
 
 **Arduino and PWM**
 
-The Arduino IDE has a built-in function“analogWrite()”that can be used
-to generate PWM signals. Most of the pins generate signals with a
-frequency of about 490Hz and we can use this function to give values
-from 0 to 255.
+The Arduino IDE has a built-in function“analogWrite()”that can be used to generate PWM signals. Most of the pins generate signals with a frequency of about 490Hz and we can use this function to give values from 0 to 255.
 
-“analogWrite(0)” indicates a signal with 0% duty cycle.
-“analogWrite(127)” indicates a signal with 50% duty cycle.
-“analogWrite(255)” indicates a signal with 100% duty cycle. On the
-Plus control board, the PWM pins are 3, 5, 6, 9, 10, and 11. PWM pins
-are marked with the “\~”symbol. In this project, you will learn how to
-get the PWM output from the digital pins of the Plus control board and
-control the brightness of the LED by code.
+“analogWrite(0)” indicates a signal with 0% duty cycle. “analogWrite(127)” indicates a signal with 50% duty cycle. “analogWrite(255)” indicates a signal with 100% duty cycle. On the Plus control board, the PWM pins are 3, 5, 6, 9, 10, and 11. PWM pins are marked with the “~”symbol. In this project, you will learn how to get the PWM output from the digital pins of the Plus control board and control the brightness of the LED by code.
 
-**4. Circuit Diagram and** **Wiring Diagram**
+### **4. Circuit Diagram and Wiring Diagram**
 
-![](/media/cb069d7553d861e3293d8bdbe85bbd05.png)
+![image-20230509085033220](media/image-20230509085033220.png)
 
-![](/media/898285da10fa9b39e52a02bc68758d27.png)
+![image-20230509085042886](media/image-20230509085042886.png)
 
 **Note:**
 
 How to connect the LED
 
-![](/media/42ff6f405dfa128593827de5aa03e94b.png)
+![image-20230509085110397](media/image-20230509085110397.png)
 
 How to identify the 220Ω 5-band resistor
 
-![](/media/55c0199544e9819328f6d5778f10d7d0.png)
+![image-20230509085126065](media/image-20230509085126065.png)
 
-**5.Test Code：**
+### **5.Test Code**
 
-The design of this project makes GP16 output PWM, and the pulse width
-gradually increases from 0% to 100%, and then gradually decreases from
-100% to 0%.
+The design of this project makes GP16 output PWM, and the pulse width gradually increases from 0% to 100%, and then gradually decreases from 100% to 0%.
 
 You can open the code we provide:
 
-Go to the folder KS3026 Keyestudio Raspberry Pi Pico Learning Kit Basic
-Edition\\2. Windows System\\2. C\_Tutorial\\2. Projects\\Project
-04：Breathing Led\\Project\_04\_Breathing\_Led.
+Go to the folder KS3026 Keyestudio Raspberry Pi Pico Learning Kit Basic Edition\2. Windows  System\2. C_Tutorial\2. Projects\Project 04：Breathing Led\Project_04_Breathing_Led.
 
-<table>
-<tbody>
-<tr class="odd">
-<td><p>//**********************************************************************</p>
-<p>/*</p>
-<p>* Filename : Breathing Led</p>
-<p>* Description : Make led light fade in and out, just like breathing.</p>
-<p>* Auther : http//www.keyestudio.com</p>
-<p>*/</p>
-<p>#define PIN_LED 16 //define the led pin</p>
-<p>void setup() </p>
-<p>void loop() </p>
-<p>for (int i = 255; i &gt; -1; i--) </p>
-<p>}</p>
-<p>//*************************************************************************************</p></td>
-</tr>
-</tbody>
-</table>
+```c
+//**********************************************************************
+/*
+ * Filename    : Breathing Led
+ * Description : Make led light fade in and out, just like breathing.
+ * Auther      : http//www.keyestudio.com
+*/
+#define PIN_LED   16   //define the led pin
 
-Before uploading Test Code to Raspberry Pi Pico, please check the
-configuration of Arduino IDE.
+void setup() {
+  pinMode(PIN_LED, OUTPUT);
+}
+
+void loop() {
+  for (int i = 0; i < 255; i++) { //make light fade in
+    analogWrite(PIN_LED, i);
+    delay(5);
+  }
+  for (int i = 255; i > -1; i--) {  //make light fade out
+    analogWrite(PIN_LED, i);
+    delay(5);
+  }
+}
+//**********************************************************************
+```
+
+
+Before uploading Test Code to Raspberry Pi Pico, please check the configuration of Arduino IDE.
 
 Click "Tools" to confirm that the board type and ports.
 
-![](/media/860295b49ac07b72ad9446668d36dbad.png)
+![image-20230509085155878](media/image-20230509085155878.png)
 
-Click ![](/media/b0d41283bf5ae66d2d5ab45db15331ba.png) to upload the test code to the Raspberry
-Pi Pico board
+Click ![img](media/wps1-16835935308931.jpg) to upload the test code to the Raspberry Pi Pico board.
 
-![](/media/5a55b36b6cab6994b21391d3af53058c.png)
+![image-20230509085225638](media/image-20230509085225638.png)
 
-![](/media/bd515e04ca72e8eba1b6a046131d5e0a.png)
+![image-20230509085233558](media/image-20230509085233558.png)
 
-6.  **Result**
+### **6.Test Result**
 
-After burning the project code, connecting the wires according to the
-wiring diagram, and powering on, the LED lights up gradually, and then
-gradually darkens.
+After burning the project code, connecting the wires according to the wiring diagram, and powering on, the LED lights up gradually, and then gradually darkens.
 
-![](/media/3673c95868f245ee28365de8e51d2ced.png)
+![image-20230508173108052](media/image-20230508173108052.png)

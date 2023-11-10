@@ -1,86 +1,93 @@
 # Project 13：Passive Buzzer
 
-1.  **Introduction**
+### **Introduction**
 
-In this project, we will learn the passive buzzer and use the Plus
-control board to control the passive buzzer to play a song. Unlike an
-active buzzer, a passive buzzer can emit sounds of different
-frequencies.
+In this project, we will learn the passive buzzer and use the Plus control board to control the passive buzzer to play a song. Unlike an active buzzer, a passive buzzer can emit sounds of different frequencies. 
 
-2.  **Components Required**
+### **Components Required**
 
-|                                                         |                                      |                        |                        |
-| ------------------------------------------------------- | ------------------------------------ | ---------------------- | ---------------------- |
-| ![](/media/bbed91c0b45fcafc7e7163bfeabf68f9.png)      |                        |                        |
-| Raspberry Pi Pico\*1                                    | Raspberry Pi Pico Expansion Board\*1 |                        |                        |
-| ![](/media/7dcbd02995be3c142b2f97df7f7c03ce.png) |
-| Passive Buzzer\*1                                       | Breadboard\*1                        | Jumper Wires           | USB Cable\*1           |
+| ![image-20230509092511195](media/image-20230509092511195.png) | ![image-20230509092515393](media/image-20230509092515393.png) | ![image-20230509092519825](media/image-20230509092519825.png) |
+| ------------------------------------------------------- | ------------------------------------ | ---------------------- |
+| Raspberry Pi Pico\*1                                    | Raspberry Pi Pico Expansion Board\*1 | USB Cable\*1 |
+| ![image-20230509092527229](media/image-20230509092527229.png) |![image-20230509092531506](media/image-20230509092531506.png)|![image-20230509092536641](media/image-20230509092536641.png)|
+| Passive Buzzer\*1                                       | Breadboard\*1                        | Jumper Wires           |
 
-**3. Component Knowledge**
+### **Component Knowledge**
 
-![](/media/8d0020e53824072cbe9d4f7d2f8acb4f.png)
+![image-20230509092549609](media/image-20230509092549609.png)
 
-A passive buzzer is an integrated electronic buzzer with no internal
-vibration source. It must be driven by 2K to 5K square wave, not a DC
-signal. The two buzzers are very similar in appearance, but one buzzer
-with a green circuit board is a passive buzzer, while the other with
-black tape is an active buzzer. Passive buzzers cannot distinguish
-between positive polarity while active buzzers can.
+A passive buzzer is an integrated electronic buzzer with no internal vibration source. It must be driven by 2K to 5K square wave, not a DC signal. The two buzzers are very similar in appearance, but one buzzer with a green circuit board is a passive buzzer, while the other with black tape is an active buzzer. Passive buzzers cannot distinguish between positive polarity while active buzzers can.
 
-![](/media/fc42c5ed014609ff0b290ee5361bb2fd.png)
+![image-20230509092555015](media/image-20230509092555015.png)
 
-3.  **Circuit Diagram and Wiring Diagram**
-    
-    ![](/media/e0da1ccdbff24d256db130816c55da74.png)
+### **Circuit Diagram and Wiring Diagram**
 
-![](/media/e601e48f8deddb3e9e7734d0022106b3.png)
+![image-20230509092757533](media/image-20230509092757533.png)
 
-**4. Test Code：**
+![image-20230509092803085](media/image-20230509092803085.png)
+
+### **Test Code**
 
 You can open the code we provide:
 
-Go to the folder KS3026 Keyestudio Raspberry Pi Pico Learning Kit Basic
-Edition\\2. Windows System\\2. C\_Tutorial\\2. Projects\\Project
-13：Passive Buzzer\\Project\_13\_Passive\_Buzzer.
+Go to the folder KS3026 Keyestudio Raspberry Pi Pico Learning Kit Basic Edition\2. Windows  System\2. C_Tutorial\2. Projects\Project 13：Passive Buzzer\Project_13_Passive_Buzzer.
 
-<table>
-<tbody>
-<tr class="odd">
-<td><p>//**********************************************************************</p>
-<p>/*</p>
-<p>* Filename : Passive Buzzer</p>
-<p>* Description : Passive Buzzer sounds the alarm.</p>
-<p>* Auther : http//www.keyestudio.com</p>
-<p>*/</p>
-<p>#define PIN_BUZZER 16 //define buzzer pins</p>
-<p>void setup() </p>
-<p>void loop() </p>
-<p>void alert() </p>
-<p>}</p>
-<p>void freq(int PIN, int freqs, int times) </p>
-<p>else </p>
-<p>}</p>
-<p>}</p>
-<p>//**********************************************************************</p></td>
-</tr>
-</tbody>
-</table>
+```c
+//**********************************************************************
+/*
+ * Filename    : Passive Buzzer
+ * Description : Passive Buzzer sounds the alarm.
+ * Auther      : http//www.keyestudio.com
+*/
+#define PIN_BUZZER 16   //define buzzer pins
 
-Before uploading Test Code to Raspberry Pi Pico, please check the
-configuration of Arduino IDE.
+void setup() {
+  pinMode(PIN_BUZZER, OUTPUT);
+}
+
+void loop() {
+    alert();
+}
+
+void alert() {
+  float sinVal;         // Define a variable to save sine value
+  int toneVal;          // Define a variable to save sound frequency
+  for (int x = 0; x < 360; x += 10) {     // X from 0 degree->360 degree
+    sinVal = sin(x * (PI / 180));       // Calculate the sine of x
+    toneVal = 2000 + sinVal * 500;      // Calculate sound frequency according to the sine of x
+    freq(PIN_BUZZER, toneVal, 10);
+  }
+}
+
+void freq(int PIN, int freqs, int times) {
+  if (freqs == 0) {
+    digitalWrite(PIN, LOW);
+  }
+  else {
+    for (int i = 0; i < times * freqs / 1000; i ++) {
+      digitalWrite(PIN, HIGH);
+      delayMicroseconds(1000000 / freqs / 2);
+      digitalWrite(PIN, LOW);
+      delayMicroseconds(1000000 / freqs / 2);
+    }
+  }
+}
+//**********************************************************************
+```
+
+
+Before uploading Test Code to Raspberry Pi Pico, please check the configuration of Arduino IDE.
 
 Click "Tools" to confirm that the board type and ports.
 
-![](/media/5bcaec752cf360d1258a04ebf04171d7.png)
+![image-20230509093046689](media/image-20230509093046689.png)
 
-Click ![](/media/b0d41283bf5ae66d2d5ab45db15331ba.png) to upload the test code to the Raspberry
-Pi Pico board
+Click ![image-20230509093055773](media/image-20230509093055773.png) to upload the test code to the Raspberry Pi Pico board
 
-![](/media/d75f2d7c73ed2b31b33c81d1634149f6.png)
+![image-20230509093101569](media/image-20230509093101569.png)
 
-![](/media/ddfea52b611785f1ed44767d6b36419a.png)
+![image-20230509093109009](media/image-20230509093109009.png)
 
-5.  **Result**
+### **Result**
 
-Upload the project code, wire up and power on, then the passive buzzer
-will alarm
+Upload the project code, wire up and power on, then the passive buzzer will alarm.
